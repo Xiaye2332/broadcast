@@ -8,7 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class randomBroadcast implements CommandExecutor {
@@ -29,8 +28,10 @@ public class randomBroadcast implements CommandExecutor {
         Random random = new Random();
         int bcrandom = random.nextInt(len);
         String content = config.getConfig().getStringList("BroadcastContent").get(bcrandom);
+        String coloredContent = ChatColor.translateAlternateColorCodes('&',content);
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendMessage(prefix+ ChatColor.WHITE + content);
+            player.sendMessage(prefix+ ChatColor.WHITE + coloredContent);
         }
+        Bukkit.getLogger().info("[公告]"+content);
     }
 }

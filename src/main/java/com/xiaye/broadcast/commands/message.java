@@ -11,17 +11,26 @@ import org.bukkit.plugin.Plugin;
 public class message implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (args.length ==0){
+            sender.sendMessage(ChatColor.RED + "不能发送空消息!");
+            return false;
+        }
         Plugin config = com.xiaye.broadcast.Broadcast.getPlugin(com.xiaye.broadcast.Broadcast.class);
         String prefix = config.getConfig().getString("Prefix");
-        if (args.length != 1)
-        {   sender.sendMessage("指令格式不正确,使用方法/xbc [内容]");
-            return false;
-        }else {
-            String content = args[0];
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                player.sendMessage(prefix + ChatColor.WHITE + content);
-            }
+        int i = args.length;
+        String content = "";
+        int k = 0;
+        while (k < i) {
+            String tmp = args[k];
+            tmp += " ";
+            content += tmp;
+            k++;
         }
+        String coloredContent = ChatColor.translateAlternateColorCodes('&', content);
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.sendMessage(prefix + ChatColor.WHITE + coloredContent);
+        }
+        Bukkit.getLogger().info("[公告]"+content);
         return false;
     }
 }
